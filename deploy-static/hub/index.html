@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AMPT Solution Building Hub</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Solution Studio x AMPT Chicago</p>
+        <h1>Solution Building Hub</h1>
+      </div>
+      <div class="topbar-actions">
+        <label class="mode-control" for="audienceMode">
+          <span>Audience</span>
+          <select id="audienceMode">
+            <option value="internal">Nick + Barb</option>
+            <option value="ampt">AMPT</option>
+            <option value="sponsor">Denis Simple</option>
+          </select>
+        </label>
+        <button class="ghost-button header-button" id="presentModeButton" type="button" aria-pressed="false">Present</button>
+        <button class="ghost-button header-button client-tool" id="handoutModeButton" type="button" aria-pressed="false">Handout</button>
+        <button class="ghost-button header-button present-nav" id="presentPrevButton" type="button">Prev</button>
+        <button class="ghost-button header-button present-nav" id="presentNextButton" type="button">Next</button>
+        <a class="ghost-button header-button topbar-link internal-tool" href="../">Public Site</a>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="Project navigation">
+        <button class="nav-toggle" id="showAllViewsButton" type="button" aria-pressed="false">Show all views</button>
+        <div class="nav-group-label">Overview</div>
+        <button class="nav-button active" data-view="dashboard" type="button">Dashboard</button>
+        <button class="nav-button" data-view="platform" type="button">Platform</button>
+        <button class="nav-button" data-view="briefing" type="button">Briefing</button>
+        <button class="nav-button" data-view="agenda" type="button">Agenda</button>
+        <button class="nav-button" data-view="demo" type="button">Demo Path</button>
+        <button class="nav-button" data-view="views" type="button">Views</button>
+        <button class="nav-button" data-view="prep" type="button">Call Prep</button>
+        <button class="nav-button" data-view="materials" type="button">Materials</button>
+        <div class="nav-group-label">Discovery</div>
+        <button class="nav-button" data-view="stakeholders" type="button">Stakeholders</button>
+        <button class="nav-button" data-view="followups" type="button">Follow-ups</button>
+        <button class="nav-button" data-view="workflow" type="button">Workflows</button>
+        <button class="nav-button" data-view="pilots" type="button">Pilots</button>
+        <button class="nav-button" data-view="charters" type="button">Charters</button>
+        <button class="nav-button" data-view="compare" type="button">Compare</button>
+        <button class="nav-button" data-view="intake" type="button">Intake</button>
+        <button class="nav-button" data-view="survey" type="button">Survey</button>
+        <button class="nav-button" data-view="onsite" type="button">Onsite</button>
+        <div class="nav-group-label">Governance</div>
+        <button class="nav-button" data-view="research" type="button">Research</button>
+        <button class="nav-button" data-view="risks" type="button">Risks</button>
+        <button class="nav-button" data-view="data" type="button">Data</button>
+        <button class="nav-button" data-view="glossary" type="button">Glossary</button>
+        <button class="nav-button" data-view="library" type="button">Library</button>
+        <button class="nav-button" data-view="readiness" type="button">Readiness</button>
+        <button class="nav-button" data-view="notes" type="button">Notes</button>
+        <button class="nav-button" data-view="decisions" type="button">Decisions</button>
+        <div class="nav-group-label">Delivery</div>
+        <button class="nav-button" data-view="economics" type="button">Economics</button>
+        <button class="nav-button" data-view="tech" type="button">Tech</button>
+        <button class="nav-button" data-view="handoff" type="button">Handoff</button>
+        <button class="nav-button" data-view="rollout" type="button">Rollout</button>
+        <button class="nav-button" data-view="roadmap" type="button">Roadmap</button>
+        <button class="nav-button" data-view="drafts" type="button">Drafts</button>
+      </aside>
+
+      <section class="content">
+        <button class="conversation-menu-button" id="conversationMenuButton" type="button" aria-pressed="false">Menu</button>
+        <button class="handout-exit-button" id="handoutExitButton" type="button">Exit Handout</button>
+
+        <section class="search-strip" aria-label="Search active view">
+          <label for="viewSearch">Search active view</label>
+          <input id="viewSearch" type="search" placeholder="Filter visible cards, rows, and notes">
+          <button class="ghost-button" id="clearSearchButton" type="button">Clear</button>
+        </section>
+
+        <section class="view active" id="dashboard" aria-labelledby="dashboardTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Current focus</p>
+              <h2 id="dashboardTitle">Mid-to-late June regroup package</h2>
+            </div>
+            <p class="section-note" id="dashboardNote">A working prototype for organizing discovery. Local-only for now; no AMPT data is sent externally.</p>
+          </div>
+
+          <section class="audience-banner" id="audienceBanner" aria-live="polite"></section>
+
+          <section class="pathway-panel" id="pathwayPanel" aria-label="Simplified engagement path">
+            <article>
+              <span>1</span>
+              <strong id="pathOneTitle">Start Here</strong>
+              <p id="pathOneBody">Plain-English status, purpose, and what matters now.</p>
+              <button class="ghost-button path-button" type="button" data-view-target="dashboard">Open</button>
+            </article>
+            <article>
+              <span>2</span>
+              <strong id="pathTwoTitle">Discovery</strong>
+              <p id="pathTwoBody">Questions, workflows, stakeholders, and operational pain.</p>
+              <button class="ghost-button path-button" type="button" data-view-target="intake">Open</button>
+            </article>
+            <article>
+              <span>3</span>
+              <strong id="pathThreeTitle">Trust</strong>
+              <p id="pathThreeBody">Data boundaries, human review, consent, and risks.</p>
+              <button class="ghost-button path-button" type="button" data-view-target="risks">Open</button>
+            </article>
+            <article>
+              <span>4</span>
+              <strong id="pathFourTitle">Next Step</strong>
+              <p id="pathFourBody">The next agenda, follow-up, or pilot decision.</p>
+              <button class="ghost-button path-button" type="button" data-view-target="roadmap">Open</button>
+            </article>
+          </section>
+
+          <section class="mode-overview" id="modeOverview" aria-label="Plain-English overview">
+            <article>
+              <span id="overviewOneLabel">Status</span>
+              <strong id="overviewOneTitle">The work is active</strong>
+              <p id="overviewOneDetail">The next step is being organized carefully.</p>
+            </article>
+            <article>
+              <span id="overviewTwoLabel">Bottom Line</span>
+              <strong id="overviewTwoTitle">Start small</strong>
+              <p id="overviewTwoDetail">Choose one practical workflow before discussing tools.</p>
+            </article>
+            <article>
+              <span id="overviewThreeLabel">Helpful Role</span>
+              <strong id="overviewThreeTitle">Support patience</strong>
+              <p id="overviewThreeDetail">Keep the work moving without rushing AMPT.</p>
+            </article>
+          </section>
+
+          <nav class="guided-stepper" id="guidedStepper" aria-label="Guided conversation steps">
+            <button type="button" data-guide-target="simpleSummaryPanel">1. Summary</button>
+            <button type="button" data-guide-target="oneMinuteStoryPanel">2. Story</button>
+            <button type="button" data-guide-target="confidenceMeterPanel">3. Confidence</button>
+            <button type="button" data-guide-target="keyTakeawayPanel">4. Takeaway</button>
+            <button type="button" data-guide-target="nextConversationPanel">5. Next</button>
+            <button type="button" data-guide-target="callClosePanel">6. Close</button>
+            <button type="button" data-guide-target="followUpPanel">7. Follow-up</button>
+          </nav>
+
+          <section class="simple-summary" id="simpleSummaryPanel" aria-label="Simplified view">
+            <article class="simple-card">
+              <span id="simpleOneLabel">Where Things Stand</span>
+              <strong id="simpleOneTitle">Project is moving</strong>
+              <p id="simpleOneDetail">We are organizing the work before recommending anything.</p>
+            </article>
+            <article class="simple-card">
+              <span id="simpleTwoLabel">Why It Matters</span>
+              <strong id="simpleTwoTitle">Help AMPT save staff time</strong>
+              <p id="simpleTwoDetail">The work is about capacity and practical support, not technology for its own sake.</p>
+            </article>
+            <article class="simple-card">
+              <span id="simpleThreeLabel">How Denis Can Help</span>
+              <strong id="simpleThreeTitle">Support the next step</strong>
+              <p id="simpleThreeDetail">Keep the relationship warm and help fund a small pilot after AMPT chooses the workflow.</p>
+            </article>
+          </section>
+
+          <section class="one-minute-story" id="oneMinuteStoryPanel" aria-label="One-minute story">
+            <h3>One-minute story</h3>
+            <p id="oneMinuteStoryText">This work is about starting carefully, learning from real workflows, and protecting trust before recommending anything.</p>
+          </section>
+
+          <section class="confidence-meter" id="confidenceMeterPanel" aria-label="Confidence meter">
+            <h3>Confidence meter</h3>
+            <div id="confidenceList" class="confidence-list"></div>
+          </section>
+
+          <section class="key-takeaway" id="keyTakeawayPanel" aria-label="Key takeaway">
+            <h3>Key takeaway</h3>
+            <strong id="takeawayHeadline">Start with one safe workflow</strong>
+            <p id="takeawayBody">Choose one workflow to understand before recommending anything.</p>
+            <span id="takeawayRemember">AMPT stays in control.</span>
+          </section>
+
+          <section class="say-it-strip" id="sayItStrip" aria-label="How to say it">
+            <h3>How to say it</h3>
+            <div id="sayItList" class="say-it-list"></div>
+          </section>
+
+          <section class="next-conversation" id="nextConversationPanel" aria-label="Next conversation">
+            <h3>Next conversation</h3>
+            <div class="conversation-grid">
+              <article>
+                <span>Ask this</span>
+                <p id="nextQuestionText">Which workflow should we learn about first?</p>
+              </article>
+              <article>
+                <span>Request</span>
+                <p id="nextAskText">Permission to observe one safe workflow.</p>
+              </article>
+              <article>
+                <span>Avoid</span>
+                <p id="nextAvoidText">Do not pick a tool before the work is understood.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="call-close" id="callClosePanel" aria-label="Call close">
+            <h3>Call close</h3>
+            <p id="callCloseScript">Close with one clear decision and one safe next step.</p>
+            <ul id="callCloseOutcomes" class="call-close-outcomes"></ul>
+          </section>
+
+          <section class="follow-up-note" id="followUpPanel" aria-label="Follow-up note">
+            <div class="panel-header">
+              <div>
+                <h3>Follow-up note</h3>
+                <p class="panel-note">Copy-ready language after the conversation.</p>
+              </div>
+              <button class="ghost-button" id="copyFollowUpButton" type="button">Copy Note</button>
+            </div>
+            <pre id="followUpText" class="follow-up-output"></pre>
+          </section>
+
+          <section class="today-strip" aria-label="Today summary">
+            <article class="today-card">
+              <span>Due now</span>
+              <strong id="todayDueTitle">No due items</strong>
+              <p id="todayDueDetail">Nothing needs attention today.</p>
+            </article>
+            <article class="today-card">
+              <span>Waiting on</span>
+              <strong id="todayBlockedTitle">No blocker selected</strong>
+              <p id="todayBlockedDetail">No critical dependency has been selected.</p>
+            </article>
+            <article class="today-card">
+              <span>Ready to show</span>
+              <strong id="todayReadyTitle">No material selected</strong>
+              <p id="todayReadyDetail">No material is ready yet.</p>
+            </article>
+          </section>
+
+          <details class="working-tools" id="workingToolsPanel">
+            <summary>Working tools</summary>
+            <div class="working-tools-body">
+              <div class="dashboard-tool-row">
+                <button class="ghost-button" id="saveStateButton" type="button">Save Work</button>
+                <label class="ghost-button file-button" for="loadStateInput">Load Work</label>
+                <button class="ghost-button" id="exportButton" type="button">Export Brief</button>
+                <button class="ghost-button" id="resetDemoButton" type="button">Reset Demo</button>
+                <input id="loadStateInput" class="visually-hidden" type="file" accept="application/json">
+              </div>
+
+          <div class="metric-grid">
+            <article class="metric">
+              <span class="metric-value" id="openTaskCount">0</span>
+              <span class="metric-label">Open actions</span>
+            </article>
+            <article class="metric">
+              <span class="metric-value" id="pilotCount">0</span>
+              <span class="metric-label">Candidate solutions</span>
+            </article>
+            <article class="metric">
+              <span class="metric-value" id="stakeholderCount">0</span>
+              <span class="metric-label">Stakeholders</span>
+            </article>
+            <article class="metric">
+              <span class="metric-value" id="researchCount">0</span>
+              <span class="metric-label">Research items</span>
+            </article>
+            <article class="metric">
+              <span class="metric-value" id="materialReadyCount">0</span>
+              <span class="metric-label">Materials ready</span>
+            </article>
+          </div>
+
+          <div class="secondary-metrics">
+            <article class="metric">
+              <span class="metric-value" id="highRiskCount">0</span>
+              <span class="metric-label">High risks</span>
+            </article>
+            <article class="metric">
+              <span class="metric-value" id="workflowCount">0</span>
+              <span class="metric-label">Workflows mapped</span>
+            </article>
+            <article class="metric">
+              <span class="metric-value" id="handoffCount">0</span>
+              <span class="metric-label">Handoff items</span>
+            </article>
+          </div>
+
+          <section class="panel decision-queue-panel" aria-labelledby="decisionQueueTitle">
+            <div class="panel-header">
+              <div>
+                <h3 id="decisionQueueTitle">Open Choices</h3>
+                <p class="panel-note">Open choices to close before the project gets more specific.</p>
+              </div>
+              <button class="ghost-button" id="addDecisionFromDashboardButton" type="button">Add Decision</button>
+            </div>
+            <div id="decisionQueueList" class="decision-queue"></div>
+          </section>
+
+          <section class="panel brief-builder-panel" aria-labelledby="briefBuilderTitle">
+            <div class="panel-header">
+              <div>
+                <h3 id="briefBuilderTitle">Plain-English Brief</h3>
+                <p class="panel-note">Copy-ready summary for the selected view.</p>
+              </div>
+              <button class="ghost-button" id="copyDashboardBriefButton" type="button">Copy Brief</button>
+            </div>
+            <pre id="dashboardBriefOutput" class="dashboard-brief-output"></pre>
+          </section>
+
+          <section class="panel quick-capture-panel" aria-labelledby="quickCaptureTitle">
+            <div class="panel-header">
+              <div>
+                <h3 id="quickCaptureTitle">Capture From Call</h3>
+                <p class="panel-note">Park something from the call without leaving the dashboard.</p>
+              </div>
+              <div class="capture-actions">
+                <select id="captureType" aria-label="Capture type">
+                  <option value="note">Note</option>
+                  <option value="task">Action</option>
+                  <option value="decision">Decision</option>
+                </select>
+                <button class="primary-button" id="captureButton" type="button">Capture</button>
+              </div>
+            </div>
+            <textarea id="captureText" rows="3" placeholder="Type a note, action, or decision from the call"></textarea>
+          </section>
+
+          <div class="priority-grid">
+            <section class="panel" aria-labelledby="nextActionsTitle">
+              <h3 id="nextActionsTitle">Next Steps</h3>
+              <div id="nextActionList" class="priority-list"></div>
+            </section>
+            <section class="panel" aria-labelledby="blockersTitle">
+              <h3 id="blockersTitle">Waiting On</h3>
+              <div id="blockerList" class="priority-list"></div>
+            </section>
+            <section class="panel" aria-labelledby="meetingTitle">
+              <h3 id="meetingTitle">Meeting Notes</h3>
+              <div id="meetingPrepList" class="priority-list"></div>
+            </section>
+          </div>
+
+          <div class="two-column">
+            <section class="panel" aria-labelledby="actionsTitle">
+              <div class="panel-header">
+                <h3 id="actionsTitle">Action Items</h3>
+                <button class="ghost-button" id="addTaskButton" type="button">Add</button>
+              </div>
+              <div id="taskList" class="stack"></div>
+            </section>
+
+            <section class="panel" aria-labelledby="principlesTitle">
+              <h3 id="principlesTitle">Operating Principles</h3>
+              <ul class="principle-list">
+                <li>Protect personal and community data.</li>
+                <li>Lead with operational efficiency, not AI hype.</li>
+                <li>Lead with anti-racism, consent, and equity.</li>
+                <li>Keep humans responsible for decisions and external communication.</li>
+                <li>Use technology to support staff capacity, not replace judgment.</li>
+              </ul>
+            </section>
+          </div>
+            </div>
+          </details>
+        </section>
+
+        <section class="view" id="platform" aria-labelledby="platformTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Reusable product layer</p>
+              <h2 id="platformTitle">AI capacity platform</h2>
+            </div>
+            <p class="section-note">A product shell for moving nonprofit engagements from discovery to governed pilots.</p>
+          </div>
+
+          <section class="platform-hero-panel" aria-label="Platform overview">
+            <div>
+              <span>Product posture</span>
+              <h3>One workspace for discovery, trust, and pilot readiness.</h3>
+              <p>Use the platform to organize stakeholder views, map workflows, hold governance boundaries, and generate plain-English materials for the next conversation.</p>
+            </div>
+            <div class="platform-stage">
+              <span>Current stage</span>
+              <strong>Prototype</strong>
+              <p>Local-first demo with reusable structure and client-specific seed data.</p>
+            </div>
+          </section>
+
+          <section class="platform-module-grid" aria-label="Platform modules">
+            <article>
+              <span>01</span>
+              <h3>Audience cockpit</h3>
+              <p>Internal, leadership, and sponsor views keep the same work legible for different people.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Workflow discovery</h3>
+              <p>Track recurring work, friction, data sensitivity, owners, and candidate pilot fit.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Governance guardrails</h3>
+              <p>Make consent, privacy, equity, human review, and data boundaries visible before testing.</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>Brief builder</h3>
+              <p>Generate meeting agendas, follow-up notes, pilot summaries, and stakeholder-ready language.</p>
+            </article>
+          </section>
+
+          <section class="platform-roadmap-panel" aria-labelledby="platformRoadmapTitle">
+            <div>
+              <p class="eyebrow">Build path</p>
+              <h3 id="platformRoadmapTitle">What turns this into a real platform</h3>
+            </div>
+            <div class="platform-roadmap">
+              <article>
+                <strong>1. Reusable intake model</strong>
+                <p>Separate client-specific notes from repeatable workflow, governance, and readiness objects.</p>
+              </article>
+              <article>
+                <strong>2. Supabase persistence</strong>
+                <p>Move local state into project records, stakeholder tables, workflow maps, and generated briefs.</p>
+              </article>
+              <article>
+                <strong>3. Role-safe sharing</strong>
+                <p>Give each audience a clean, permissioned view instead of exposing the working cockpit.</p>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="briefing" aria-labelledby="briefingTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Call-ready</p>
+              <h2 id="briefingTitle">Briefing view</h2>
+            </div>
+            <p class="section-note">A simplified one-page view for live conversations.</p>
+          </div>
+          <div id="briefingGrid" class="briefing-grid"></div>
+        </section>
+
+        <section class="view" id="agenda" aria-labelledby="agendaTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Meeting design</p>
+              <h2 id="agendaTitle">Audience agenda</h2>
+            </div>
+            <p class="section-note" id="agendaNote">A clean meeting flow based on the selected view.</p>
+          </div>
+          <div id="agendaList" class="timeline"></div>
+        </section>
+
+        <section class="view" id="demo" aria-labelledby="demoTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Live walkthrough</p>
+              <h2 id="demoTitle">Demo path</h2>
+            </div>
+            <p class="section-note" id="demoNote">A tight walkthrough for the selected audience.</p>
+          </div>
+          <div id="demoPathGrid" class="demo-path-grid"></div>
+        </section>
+
+        <section class="view" id="materials" aria-labelledby="materialsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Regroup package</p>
+              <h2 id="materialsTitle">Materials tracker</h2>
+            </div>
+            <p class="section-note">The concrete materials Angela expects before the next AMPT conversation.</p>
+          </div>
+          <div id="materialsGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="prep" aria-labelledby="prepTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Conversation design</p>
+              <h2 id="prepTitle">Call prep</h2>
+            </div>
+            <p class="section-note">Use this to keep Angela, Barb, and Denis conversations grounded and non-threatening.</p>
+          </div>
+          <div class="prep-layout">
+            <section class="panel">
+              <h3>Talk Track</h3>
+              <div id="talkTrackList" class="stack"></div>
+            </section>
+            <section class="panel">
+              <h3>Language Guide</h3>
+              <div id="languageGuide" class="language-guide"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="views" aria-labelledby="viewsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Product shape</p>
+              <h2 id="viewsTitle">Three working views</h2>
+            </div>
+            <p class="section-note">The same hub can show different information depending on who is using it.</p>
+          </div>
+          <div id="viewGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="stakeholders" aria-labelledby="stakeholdersTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Relationship map</p>
+              <h2 id="stakeholdersTitle">Stakeholders</h2>
+            </div>
+            <button class="ghost-button" id="addStakeholderButton" type="button">Add Stakeholder</button>
+          </div>
+          <div id="stakeholderGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="followups" aria-labelledby="followupsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Relationship follow-through</p>
+              <h2 id="followupsTitle">Stakeholder follow-ups</h2>
+            </div>
+            <p class="section-note">A lightweight relationship tracker for the next touchpoint with each person.</p>
+          </div>
+          <div id="followupGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="workflow" aria-labelledby="workflowTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Workflow map</p>
+              <h2 id="workflowTitle">What to observe</h2>
+            </div>
+            <p class="section-note">A practical map of current-state workflows and what evidence to collect before picking a solution.</p>
+          </div>
+          <div id="workflowGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="pilots" aria-labelledby="pilotsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Candidate solutions</p>
+              <h2 id="pilotsTitle">Validate operational pain before building</h2>
+            </div>
+            <button class="ghost-button" id="addPilotButton" type="button">Add Pilot</button>
+          </div>
+          <div id="pilotGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="charters" aria-labelledby="chartersTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Pilot definition</p>
+              <h2 id="chartersTitle">Pilot charters</h2>
+            </div>
+            <p class="section-note">Draft kickoff shape for each candidate solution once AMPT chooses a first workflow.</p>
+          </div>
+          <div id="charterGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="compare" aria-labelledby="compareTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Selection model</p>
+              <h2 id="compareTitle">Candidate solution comparison</h2>
+            </div>
+            <p class="section-note">A simple scorecard for deciding what should become the first AMPT pilot.</p>
+          </div>
+          <div id="comparisonTable" class="table-panel"></div>
+        </section>
+
+        <section class="view" id="intake" aria-labelledby="intakeTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Discovery</p>
+              <h2 id="intakeTitle">Pre-onsite intake questions</h2>
+            </div>
+            <button class="ghost-button" id="addQuestionButton" type="button">Add Question</button>
+          </div>
+          <div class="panel">
+            <div id="questionList" class="question-list"></div>
+          </div>
+        </section>
+
+        <section class="view" id="survey" aria-labelledby="surveyTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Pre-onsite survey</p>
+              <h2 id="surveyTitle">Question pack</h2>
+            </div>
+            <p class="section-note">Questions grouped by who should answer them and what decision each answer informs.</p>
+          </div>
+          <div id="surveyGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="onsite" aria-labelledby="onsiteTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Observation plan</p>
+              <h2 id="onsiteTitle">Chicago onsite agenda</h2>
+            </div>
+            <p class="section-note">A draft 1-2 day structure focused on seeing real work before prescribing solutions.</p>
+          </div>
+          <div id="onsiteList" class="timeline"></div>
+        </section>
+
+        <section class="view" id="research" aria-labelledby="researchTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Research queue</p>
+              <h2 id="researchTitle">What we need to learn next</h2>
+            </div>
+            <p class="section-note">Keep outside learning tied to a decision, not background curiosity.</p>
+          </div>
+          <div id="researchGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="risks" aria-labelledby="risksTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Guardrails</p>
+              <h2 id="risksTitle">Risk register</h2>
+            </div>
+            <p class="section-note">Use this as a live checklist before any pilot touches AMPT systems or data.</p>
+          </div>
+          <div id="riskGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="data" aria-labelledby="dataTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Data boundaries</p>
+              <h2 id="dataTitle">Data classification matrix</h2>
+            </div>
+            <p class="section-note">A practical rule set for what can be used in prototypes, pilots, and AI-enabled workflows.</p>
+          </div>
+          <div id="dataMatrix" class="table-panel"></div>
+        </section>
+
+        <section class="view" id="glossary" aria-labelledby="glossaryTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Shared language</p>
+              <h2 id="glossaryTitle">AMPT-friendly glossary</h2>
+            </div>
+            <p class="section-note">Use consistent plain language across Angela, Barb, Denis, and future partner conversations.</p>
+          </div>
+          <div id="glossaryGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="library" aria-labelledby="libraryTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Source library</p>
+              <h2 id="libraryTitle">Documents and source inputs</h2>
+            </div>
+            <p class="section-note">Track what exists, what is still needed, and what is safe to use.</p>
+          </div>
+          <div id="libraryGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="readiness" aria-labelledby="readinessTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Show readiness</p>
+              <h2 id="readinessTitle">Angela-ready checklist</h2>
+            </div>
+            <p class="section-note">A simple gate before presenting the prototype or any pilot concept as AMPT-facing.</p>
+          </div>
+          <div id="readinessGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="notes" aria-labelledby="notesTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Working memory</p>
+              <h2 id="notesTitle">Meeting notes</h2>
+            </div>
+            <button class="ghost-button" id="addNoteButton" type="button">Add Note</button>
+          </div>
+          <div id="notesGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="decisions" aria-labelledby="decisionsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Project memory</p>
+              <h2 id="decisionsTitle">Decision log</h2>
+            </div>
+            <button class="ghost-button" id="addDecisionButton" type="button">Add Decision</button>
+          </div>
+          <div id="decisionList" class="timeline"></div>
+        </section>
+
+        <section class="view" id="economics" aria-labelledby="economicsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Value model</p>
+              <h2 id="economicsTitle">Time and funding assumptions</h2>
+            </div>
+            <p class="section-note">Early numbers to pressure-test value without pretending we know the final pilot yet.</p>
+          </div>
+          <div id="economicsGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="tech" aria-labelledby="techTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Build readiness</p>
+              <h2 id="techTitle">Tech stack and deployment</h2>
+            </div>
+            <p class="section-note">Tracks the practical path from standalone HTML to Railway, Supabase, and GitHub.</p>
+          </div>
+          <div id="techGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="handoff" aria-labelledby="handoffTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Sustainability</p>
+              <h2 id="handoffTitle">Handoff and maintenance checklist</h2>
+            </div>
+            <p class="section-note">A reminder that small nonprofits need maintainable systems, not fragile demos.</p>
+          </div>
+          <div id="handoffGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="rollout" aria-labelledby="rolloutTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Network pathway</p>
+              <h2 id="rolloutTitle">AMPT partner rollout model</h2>
+            </div>
+            <p class="section-note">A draft model for moving from AMPT's internal pilot to partner nonprofit support.</p>
+          </div>
+          <div id="rolloutGrid" class="card-grid"></div>
+        </section>
+
+        <section class="view" id="roadmap" aria-labelledby="roadmapTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Path to pilot</p>
+              <h2 id="roadmapTitle">Prototype-to-onsite roadmap</h2>
+            </div>
+            <p class="section-note">A simple sequence for moving from this hub to a real AMPT pilot.</p>
+          </div>
+          <div id="roadmapList" class="timeline"></div>
+        </section>
+
+        <section class="view" id="drafts" aria-labelledby="draftsTitle">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Draft helper</p>
+              <h2 id="draftsTitle">Local draft builder</h2>
+            </div>
+            <button class="primary-button" id="generateDraftButton" type="button">Generate Draft</button>
+          </div>
+          <div class="draft-layout">
+            <section class="panel">
+              <label class="field-label" for="draftType">Draft type</label>
+              <select id="draftType">
+                <option value="recap">Dennis + Barb recap email</option>
+                <option value="agenda">AMPT onsite observation agenda</option>
+                <option value="meetingAgenda">Current-view meeting agenda</option>
+                <option value="demoPath">Current-view demo path</option>
+                <option value="charter">Pilot charter summary</option>
+                <option value="materials">Regroup materials checklist</option>
+                <option value="survey">Pre-onsite survey email</option>
+                <option value="tech">Tech/deployment summary</option>
+                <option value="board">Board-ready talking points</option>
+                <option value="angela">Angela prototype framing</option>
+              </select>
+              <label class="field-label" for="draftNotes">Notes to emphasize</label>
+              <textarea id="draftNotes" rows="7">Keep the first step simple, humane, and process-first. Barb can help identify non-value-add work and translate operations pain into practical discovery questions.</textarea>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Generated Draft</h3>
+                <button class="ghost-button" id="copyDraftButton" type="button">Copy</button>
+              </div>
+              <pre id="draftOutput" class="draft-output">Choose a draft type and generate.</pre>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="taskTemplate">
+      <article class="task-row">
+        <label class="check-wrap">
+          <input class="task-complete" type="checkbox">
+          <span></span>
+        </label>
+        <input class="task-title" type="text" aria-label="Task title">
+        <select class="task-owner" aria-label="Task owner"></select>
+        <input class="task-date" type="date" aria-label="Due date">
+        <button class="icon-button task-remove" type="button" aria-label="Remove task" title="Remove task">×</button>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

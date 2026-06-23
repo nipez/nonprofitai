@@ -1,0 +1,37 @@
+# OS files
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and build outputs
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated artifacts
+tmp/
+coverage/
+*.zip
+ampt-*-demo.html
+ampt-*-marketing.html
