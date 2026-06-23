@@ -547,9 +547,12 @@ a {
     position: static;
     align-items: flex-start;
     flex-direction: column;
+    gap: 12px;
+    min-height: auto;
   }
 
   .site-header nav {
+    width: 100%;
     justify-content: flex-start;
   }
 
@@ -561,27 +564,101 @@ a {
   .governance .governance-grid {
     grid-template-columns: 1fr;
   }
+
+  .hero {
+    min-height: auto;
+    padding: 56px 18px;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  .hero::after {
+    background: rgba(20, 32, 28, 0.92);
+  }
+
+  .hero-lede {
+    font-size: 1.04rem;
+  }
+
+  .proof-strip div,
+  .method-grid article,
+  .audience-grid article,
+  .governance-grid article,
+  .workflow-list article,
+  .platform-grid article {
+    min-height: auto;
+  }
+
+  .section-block,
+  .workflow-band,
+  .platform-preview,
+  .cta-section {
+    padding: 48px 18px;
+  }
+
+  .section-heading {
+    margin-bottom: 24px;
+  }
 }
 
 @media (max-width: 620px) {
+  .brand strong {
+    font-size: 1rem;
+  }
+
   .site-header nav a {
-    min-height: 34px;
-    padding: 7px 9px;
+    flex: 1 1 calc(50% - 8px);
+    min-height: 40px;
+    padding: 8px 10px;
     font-size: 0.84rem;
+    text-align: center;
+  }
+
+  .site-header nav .nav-action {
+    flex-basis: 100%;
   }
 
   .hero h1 {
-    font-size: clamp(2.45rem, 15vw, 3.4rem);
+    font-size: clamp(2.25rem, 12vw, 3rem);
+    line-height: 1;
+  }
+
+  .hero-lede {
+    margin-top: 18px;
   }
 
   .hero-actions {
     align-items: stretch;
     flex-direction: column;
+    margin-top: 26px;
   }
 
   .primary-link,
   .secondary-link {
     width: 100%;
+  }
+
+  .section-heading h2,
+  .workflow-band h2,
+  .cta-section h2 {
+    font-size: clamp(1.85rem, 10vw, 2.55rem);
+  }
+
+  .section-heading p,
+  .cta-section p {
+    font-size: 1rem;
+  }
+
+  .proof-strip div,
+  .method-grid article,
+  .audience-grid article,
+  .governance-grid article,
+  .workflow-list article,
+  .platform-grid article {
+    padding: 18px;
+    box-shadow: none;
   }
 
   .map-column {

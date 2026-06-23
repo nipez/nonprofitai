@@ -2237,9 +2237,177 @@ body[data-audience="sponsor"] .today-card {
   }
 }
 
+@media (max-width: 760px) {
+  body {
+    background: #f7f9f5;
+  }
+
+  .topbar {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .topbar h1 {
+    max-width: 12ch;
+    white-space: normal;
+  }
+
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .mode-control {
+    grid-column: 1 / -1;
+  }
+
+  .mode-control select,
+  .header-button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .topbar-link {
+    display: none;
+  }
+
+  .sidebar {
+    top: 0;
+    gap: 6px;
+    padding: 8px 12px;
+    scrollbar-width: none;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-group-label,
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-button {
+    min-height: 38px;
+    padding: 0 12px;
+    background: rgba(255, 255, 255, 0.7);
+    border-color: var(--line);
+  }
+
+  .content {
+    padding: 14px;
+  }
+
+  .section-header {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.55rem, 8vw, 2rem);
+    line-height: 1.04;
+  }
+
+  .section-note {
+    max-width: none;
+    font-size: 0.98rem;
+  }
+
+  .audience-banner,
+  .one-minute-story,
+  .panel,
+  .data-card,
+  .simple-card,
+  .today-card,
+  .platform-hero-panel,
+  .platform-module-grid article,
+  .platform-roadmap-panel,
+  .method-card,
+  .briefing-card,
+  .demo-card {
+    border-radius: 7px;
+    box-shadow: none;
+  }
+
+  .audience-banner,
+  .one-minute-story,
+  .simple-card,
+  .platform-hero-panel,
+  .panel {
+    padding: 16px;
+  }
+
+  .simple-card,
+  .pathway-panel article,
+  .platform-module-grid article,
+  .briefing-card {
+    min-height: auto;
+  }
+
+  .mode-overview,
+  .simple-summary,
+  .priority-grid,
+  .decision-queue,
+  .platform-module-grid {
+    gap: 10px;
+  }
+
+  .guided-stepper {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 8px;
+    scrollbar-width: none;
+  }
+
+  .guided-stepper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .guided-stepper button {
+    flex: 0 0 auto;
+    min-height: 40px;
+  }
+
+  .metric-grid,
+  .secondary-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-audience="ampt"] .metric-grid,
+  body[data-audience="sponsor"] .metric-grid {
+    display: none;
+  }
+
+  .metric {
+    min-height: 78px;
+  }
+
+  .metric-value {
+    font-size: 1.45rem;
+  }
+
+  .dashboard-brief-output,
+  .table-wrap {
+    max-height: none;
+  }
+}
+
 @media (max-width: 560px) {
   .topbar {
-    padding: 18px;
+    padding: 14px;
+  }
+
+  .eyebrow {
+    font-size: 0.66rem;
+  }
+
+  .topbar h1 {
+    font-size: 1.45rem;
+  }
+
+  .search-strip {
+    display: none;
   }
 
   .metric-grid {
@@ -2261,6 +2429,64 @@ body[data-audience="sponsor"] .today-card {
   .language-row,
   .timeline-item {
     grid-template-columns: 1fr;
+  }
+
+  .panel-header,
+  .capture-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .panel-header .ghost-button,
+  .panel-header .primary-button,
+  .capture-actions select,
+  .capture-actions button {
+    width: 100%;
+  }
+
+  .task-row {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .task-title,
+  .task-owner,
+  .task-date {
+    grid-column: 2 / -1;
+  }
+
+  .task-row .icon-button {
+    grid-column: 2 / -1;
+    width: 100%;
+  }
+
+  .task-row input,
+  .task-row select {
+    min-height: 40px;
+  }
+
+  .decision-card {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-accept {
+    width: 100%;
+  }
+
+  body[data-audience="sponsor"] .content,
+  body[data-audience="ampt"] .content {
+    padding: 12px;
+  }
+
+  body[data-audience="sponsor"] .section-header h2,
+  body[data-audience="ampt"] .section-header h2 {
+    font-size: clamp(1.7rem, 9vw, 2.2rem);
+  }
+
+  body[data-audience="sponsor"] .simple-card strong,
+  body[data-audience="ampt"] .simple-card strong {
+    font-size: 1.25rem;
   }
 }
 
