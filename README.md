@@ -1,15 +1,15 @@
-# AMPT Solution Building Hub
+# Nonprofit Operations Assistant
 
-Internal project workspace and prototype app for the Solution Studio x AMPT Chicago AI capacity-building engagement.
+Prototype for a simple nonprofit operations assistant that helps teams draft grants and reports, build board materials, organize meeting follow-up, and reuse trusted internal knowledge.
 
 ## Current Status
 
-This project is in kickoff mode. The first product slice is an internal hub for Nick and Barb to manage the AMPT discovery engagement, while the marketing front end frames the work as a repeatable nonprofit AI capacity-building model.
+This project is being reframed from a broad capacity-building hub into a narrower SaaS concept: a simple assistant for recurring nonprofit paperwork and documentation. The guiding product principle is "less is more."
 
 The project now has two front doors:
 
-- A public-facing marketing site that explains the broader nonprofit capacity-building offer.
-- A working project hub for Nick, Barb, AMPT, and Denis audience-specific demos.
+- A public-facing marketing site that explains the nonprofit operations assistant concept.
+- A working prototype for testing three product wedges: grant/report assistant, board packet assistant, and nonprofit knowledge desk.
 
 The app is scaffolded for the usual Solution Studio stack:
 
@@ -21,7 +21,7 @@ The app is scaffolded for the usual Solution Studio stack:
 
 - `public/marketing.html` - public-facing marketing site
 - `public/marketing.css` - marketing site styling
-- `public/index.html` - AMPT AI project hub UI
+- `public/index.html` - prototype app UI
 - `public/styles.css` - app styling
 - `public/app.js` - local state, seeded project data, and draft helpers
 - `server/index.js` - Express server for Railway deployment
@@ -78,4 +78,4 @@ Railway sets `PORT` automatically.
 
 ## Next Step
 
-Use the hub with Barb to refine action items, intake questions, and pilot concepts before bringing Angela back into the planning loop. Then replace local storage with Supabase-backed project records once the workflow stabilizes.
+Use the prototype with Barb to test which SaaS wedge is easiest to explain and most valuable: grant/report drafting, board packet creation, or nonprofit knowledge desk. Then replace local storage with Supabase-backed records once the first workflow stabilizes.

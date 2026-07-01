@@ -48,7 +48,7 @@ app.use(express.json({ limit: "1mb" }));
 app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
-    service: "ampt-ai-capacity-hub",
+    service: "nonprofit-operations-assistant",
     supabaseConfigured: Boolean(supabase)
   });
 });
@@ -56,7 +56,7 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/config", (_req, res) => {
   res.json({
     supabaseConfigured: Boolean(supabase),
-    projectName: "AMPT AI Capacity Building Hub"
+    projectName: "Nonprofit Operations Assistant"
   });
 });
 
@@ -110,5 +110,5 @@ app.use((error, _req, res, _next) => {
 });
 
 app.listen(port, () => {
-  console.log(`AMPT AI Capacity Hub listening on port ${port}`);
+  console.log(`Nonprofit Operations Assistant listening on port ${port}`);
 });

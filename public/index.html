@@ -3,29 +3,29 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AMPT Solution Building Hub</title>
+    <title>Nonprofit Operations Assistant Prototype</title>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <header class="topbar">
       <div>
-        <p class="eyebrow">Solution Studio x AMPT Chicago</p>
-        <h1>Solution Building Hub</h1>
+        <p class="eyebrow">Solution Studio</p>
+        <h1>Nonprofit Operations Assistant</h1>
       </div>
       <div class="topbar-actions">
         <label class="mode-control" for="audienceMode">
           <span>Audience</span>
           <select id="audienceMode">
-            <option value="internal">Nick + Barb</option>
-            <option value="ampt">AMPT</option>
-            <option value="sponsor">Denis Simple</option>
+            <option value="internal">Builder View</option>
+            <option value="ampt">Nonprofit View</option>
+            <option value="sponsor">Simple Sponsor</option>
           </select>
         </label>
         <button class="ghost-button header-button" id="presentModeButton" type="button" aria-pressed="false">Present</button>
         <button class="ghost-button header-button client-tool" id="handoutModeButton" type="button" aria-pressed="false">Handout</button>
         <button class="ghost-button header-button present-nav" id="presentPrevButton" type="button">Prev</button>
         <button class="ghost-button header-button present-nav" id="presentNextButton" type="button">Next</button>
-        <a class="ghost-button header-button topbar-link internal-tool" href="./marketing.html">Public Site</a>
+        <a class="ghost-button header-button topbar-link internal-tool" href="../">Public Site</a>
       </div>
     </header>
 
@@ -133,6 +133,45 @@
               <strong id="overviewThreeTitle">Support patience</strong>
               <p id="overviewThreeDetail">Keep the work moving without rushing AMPT.</p>
             </article>
+          </section>
+
+          <section class="saas-opportunity-panel" aria-labelledby="saasOpportunityTitle">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Three SaaS Opportunities</p>
+                <h3 id="saasOpportunityTitle">Simple tools for recurring nonprofit paperwork</h3>
+                <p class="panel-note">Less is more: each concept starts with one clear output, human review, and reusable approved language.</p>
+              </div>
+            </div>
+            <div class="saas-grid">
+              <article>
+                <span>01</span>
+                <h4>Grant and Report Assistant</h4>
+                <p>Draft grant answers, progress reports, funder updates, and reusable program narratives from approved notes and past language.</p>
+                <ul>
+                  <li>Best wedge: immediate pain and visible time savings.</li>
+                  <li>First demo: paste notes and get a reviewed draft.</li>
+                </ul>
+              </article>
+              <article>
+                <span>02</span>
+                <h4>Board Packet Assistant</h4>
+                <p>Create board agendas, minutes, ED updates, decision logs, and follow-up lists without rebuilding every packet manually.</p>
+                <ul>
+                  <li>Best wedge: repeatable monthly workflow.</li>
+                  <li>First demo: meeting notes to board-ready packet.</li>
+                </ul>
+              </article>
+              <article>
+                <span>03</span>
+                <h4>Nonprofit Knowledge Desk</h4>
+                <p>Help staff find trusted answers across policies, prior grants, board materials, reports, and meeting decisions.</p>
+                <ul>
+                  <li>Best wedge: preserve institutional memory.</li>
+                  <li>First demo: ask a question and cite approved sources.</li>
+                </ul>
+              </article>
+            </div>
           </section>
 
           <nav class="guided-stepper" id="guidedStepper" aria-label="Guided conversation steps">

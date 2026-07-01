@@ -1,9 +1,9 @@
 {
-  "name": "ampt-ai-capacity-hub",
+  "name": "nonprofit-operations-assistant",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Internal project hub for Solution Studio and AMPT Chicago AI capacity building.",
+  "description": "Simple nonprofit operations assistant prototype for grants, board materials, reporting, and knowledge workflows.",
   "scripts": {
     "dev": "node --watch server/index.js",
     "start": "node server/index.js",

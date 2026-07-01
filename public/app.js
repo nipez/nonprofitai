@@ -1,4 +1,4 @@
-const STORAGE_KEY = "ampt-solution-hub-v30";
+const STORAGE_KEY = "nonprofit-ops-assistant-v31";
 
 const seedState = {
   audienceMode: "internal",
@@ -7,75 +7,75 @@ const seedState = {
   tasks: [
     {
       id: crypto.randomUUID(),
-      title: "Send Barb prototype link and ask for intake question additions",
+      title: "Reframe prototype around nonprofit operations assistant",
       owner: "Nick",
-      due: "2026-06-10",
+      due: "2026-06-30",
       complete: false
     },
     {
       id: crypto.randomUUID(),
-      title: "Rename/reframe hub away from AI-first language",
+      title: "Create three SaaS wedge demos",
       owner: "Nick",
-      due: "2026-06-10",
+      due: "2026-07-02",
       complete: false
     },
     {
       id: crypto.randomUUID(),
-      title: "Create pre-onsite operational discovery survey",
+      title: "Prepare simple preview for All Chicago or AMPT",
       owner: "Nick + Barb",
-      due: "2026-06-18",
+      due: "2026-07-03",
       complete: false
     },
     {
       id: crypto.randomUUID(),
-      title: "Research Keela donor management and AMPT CRM fit",
+      title: "Map grant, board, and reporting document examples",
       owner: "Nick",
-      due: "2026-06-13",
+      due: "2026-07-05",
       complete: false
     },
     {
       id: crypto.randomUUID(),
-      title: "Schedule SVP AI/IT expert conversation",
+      title: "Decide first pilot context: All Chicago vs AMPT",
       owner: "Barb",
-      due: "2026-06-17",
+      due: "2026-07-08",
       complete: false
     },
     {
       id: crypto.randomUUID(),
-      title: "Confirm June 24 Barb call timing",
+      title: "Keep Denis view simple and non-technical",
       owner: "Nick + Barb",
-      due: "2026-06-17",
+      due: "2026-07-08",
       complete: false
     }
   ],
   views: [
     {
-      name: "Nick + Barb Working View",
-      audience: "Internal delivery team",
-      summary: "Action items, stakeholder notes, intake questions, pilot hypotheses, and draft materials.",
-      next: "Use this together for one week before making any client-facing promises."
+      name: "Builder View",
+      audience: "Nick + Barb",
+      summary: "Product wedge decisions, pilot context, discovery prompts, demo materials, and next actions.",
+      next: "Keep the product simple enough to explain in one minute."
     },
     {
-      name: "AMPT Discovery View",
-      audience: "Angela, Anna, Nicole, and AMPT staff",
-      summary: "A calmer intake experience focused on workflows, bottlenecks, data boundaries, and human judgment.",
-      next: "Show only after language is softened and questions are tuned with Barb."
+      name: "Nonprofit View",
+      audience: "Pilot organization leadership and staff",
+      summary: "A calmer experience focused on one recurring document or follow-up workflow at a time.",
+      next: "Show a single output flow, not the whole internal workspace."
     },
     {
-      name: "Denis Sponsor View",
+      name: "Simple Sponsor View",
       audience: "Funder/champion",
-      summary: "High-level progress, decisions needed, travel plan, pilot readiness, and funding implications.",
-      next: "Keep concise, practical, and outcome-oriented."
+      summary: "High-level status, practical value, and why less is more.",
+      next: "Keep concise, practical, and free of technical detail."
     }
   ],
   talkTrack: [
     {
-      title: "Open with method, not software",
-      body: "This is a quick working artifact to organize discovery. It is not the AMPT solution yet."
+      title: "Open with the job to be done",
+      body: "This is a prototype for helping nonprofits finish recurring documents and follow-up work with less friction."
     },
     {
       title: "Name the calmer frame",
-      body: "We are looking for operational friction and capacity constraints. AI is only one possible tool."
+      body: "Less is more. Start with one clear output: grant draft, board packet, report, or meeting follow-up."
     },
     {
       title: "Reassure on data",
@@ -83,7 +83,7 @@ const seedState = {
     },
     {
       title: "Invite co-design",
-      body: "Angela, Anna, Nicole, and staff should help decide which workflows are appropriate to observe."
+      body: "Pilot users should help decide which document workflows are appropriate to test first."
     }
   ],
   languageGuide: [
@@ -225,10 +225,10 @@ const seedState = {
   ],
   audienceProfiles: {
     internal: {
-      title: "Nick + Barb working cockpit",
-      note: "Internal delivery view for building the AMPT discovery process, tracking blockers, and preparing the regroup package.",
-      label: "Nick + Barb working view",
-      body: "Use this view to manage rough notes, open questions, SVP/Keela research, and the path toward an AMPT-ready discovery process.",
+      title: "Nonprofit ops assistant build cockpit",
+      note: "Internal product view for shaping a simple SaaS assistant from real nonprofit workflows without overwhelming users.",
+      label: "Builder working view",
+      body: "Use this view to choose the first SaaS wedge, prepare demos, track pilot context, and keep the experience intentionally simple.",
       recommendedViews: ["dashboard", "intake", "risks", "roadmap"],
       navLabels: {
         dashboard: "Start Here",
@@ -243,36 +243,36 @@ const seedState = {
           target: "dashboard"
         },
         {
-          title: "Discovery",
-          body: "Questions, stakeholders, workflow candidates, and open context.",
+          title: "Product Wedges",
+          body: "Grant/report drafts, board packets, knowledge desk, and meeting follow-up.",
           target: "intake"
         },
         {
           title: "Trust",
-          body: "Risks, data boundaries, language guardrails, and human review.",
+          body: "Data boundaries, source rules, citations, and human review.",
           target: "risks"
         },
         {
           title: "Next Step",
-          body: "Roadmap, agenda, follow-up language, and pilot readiness.",
+          body: "Choose the first demo, pilot context, and stakeholder preview.",
           target: "roadmap"
         }
       ],
       overview: [
         {
           label: "Current Work",
-          title: "Turn calls into structure",
-          detail: "Use the hub to capture decisions, questions, materials, and next steps before anything becomes AMPT-facing."
+          title: "Turn calls into product",
+          detail: "Use the prototype to translate discovery into three simple SaaS opportunities."
         },
         {
           label: "Main Risk",
-          title: "Do not over-promise",
-          detail: "Keela, staff workflows, Anna's trust frame, and data boundaries still need discovery."
+          title: "Do not overwhelm",
+          detail: "Denis' signal is clear: less is more. The product must show one useful output at a time."
         },
         {
           label: "Next Move",
-          title: "Prepare the regroup package",
-          detail: "Tighten language, choose discovery asks, and make the prototype feel calm enough to show selectively."
+          title: "Pick the first wedge",
+          detail: "Grant/report assistant, board packet assistant, or knowledge desk should be tested before expanding the platform."
         }
       ],
       nextActions: [
@@ -393,10 +393,10 @@ const seedState = {
       ]
     },
     ampt: {
-      title: "AMPT discovery conversation",
-      note: "A simple view for choosing what to learn first, what to protect, and what a safe next step looks like.",
-      label: "AMPT discovery view",
-      body: "This view keeps the conversation practical: what work is taking time, what information needs care, and what AMPT wants to explore first.",
+      title: "Nonprofit product conversation",
+      note: "A simple view for choosing one recurring document workflow to improve first.",
+      label: "Nonprofit user view",
+      body: "This view keeps the conversation practical: what paperwork takes time, what information needs care, and which output would be useful to test first.",
       recommendedViews: ["dashboard", "intake", "data", "roadmap"],
       navLabels: {
         dashboard: "Start",
@@ -411,36 +411,36 @@ const seedState = {
           target: "dashboard"
         },
         {
-          title: "Questions",
-          body: "The intake questions AMPT can answer before any onsite discovery.",
+          title: "Choose Output",
+          body: "Grant/report draft, board packet, knowledge answer, or meeting follow-up.",
           target: "intake"
         },
         {
           title: "Boundaries",
-          body: "What data stays protected and where human review must remain explicit.",
+          body: "What information stays protected and where human review must remain explicit.",
           target: "data"
         },
         {
           title: "Next Step",
-          body: "How AMPT moves from orientation to discovery to one narrow pilot.",
+          body: "How a nonprofit moves from one demo to one narrow pilot.",
           target: "roadmap"
         }
       ],
       overview: [
         {
           label: "Purpose",
-          title: "Find where work is getting stuck",
-          detail: "The conversation starts with real recurring work, not a technology recommendation."
+          title: "Find one painful output",
+          detail: "The conversation starts with a recurring document or follow-up task, not a technology recommendation."
         },
         {
           label: "Decision",
           title: "Choose one safe workflow",
-          detail: "AMPT decides what is useful to observe and what information stays protected."
+          detail: "The nonprofit decides what is useful to test and what information stays protected."
         },
         {
           label: "Guardrail",
           title: "People stay in control",
-          detail: "Human judgment, consent, privacy, and staff comfort come before any pilot."
+          detail: "Human judgment, privacy, and staff comfort come before any pilot."
         }
       ],
       simpleSummary: [
@@ -625,10 +625,10 @@ const seedState = {
       ]
     },
     sponsor: {
-      title: "Denis update",
-      note: "Simple sponsor view: what is happening, why it matters, and where Denis can help.",
+      title: "Simple sponsor update",
+      note: "High-level view: what is happening, why it matters, and where support may help later.",
       label: "Simple sponsor update",
-      body: "This view keeps the story high-level: AMPT is exploring a practical capacity-building effort, and the next step is careful discovery before any pilot.",
+      body: "This view keeps the story high-level: the opportunity is a simple nonprofit operations assistant, tested through real workflows before any bigger rollout.",
       recommendedViews: ["dashboard"],
       navLabels: {
         dashboard: "Update"
@@ -641,12 +641,12 @@ const seedState = {
         },
         {
           title: "Why It Matters",
-          body: "How this may help save staff time.",
+          body: "How this may help nonprofits save staff time.",
           target: "dashboard"
         },
         {
           title: "What Comes Next",
-          body: "The patient next step before any funding ask.",
+          body: "Pick one small product wedge before any big funding ask.",
           target: "dashboard"
         },
         {
@@ -659,17 +659,17 @@ const seedState = {
         {
           label: "Status",
           title: "Moving carefully",
-          detail: "Nick and Barb are helping AMPT prepare the right next conversation."
+          detail: "Nick and Barb are simplifying the idea into one useful nonprofit assistant."
         },
         {
           label: "Bottom Line",
           title: "This is about saving staff time",
-          detail: "The goal is practical capacity for AMPT, not technology for its own sake."
+          detail: "The goal is practical capacity for nonprofits, not technology for its own sake."
         },
         {
           label: "Denis' Role",
           title: "Encourage, then support later",
-          detail: "Stay supportive now; help with a small pilot only after AMPT chooses the right workflow."
+          detail: "Stay supportive now; help with a small pilot only after the first workflow is clear."
         }
       ],
       sponsorSummary: [

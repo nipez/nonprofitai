@@ -720,6 +720,68 @@ body[data-audience="sponsor"] .mode-overview {
   line-height: 1.45;
 }
 
+.saas-opportunity-panel {
+  margin-bottom: 20px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.saas-opportunity-panel h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.saas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.saas-grid article {
+  display: grid;
+  gap: 10px;
+  min-height: 255px;
+  padding: 18px;
+  background: #f8faf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.saas-grid span {
+  justify-self: start;
+  padding: 5px 9px;
+  color: #ffffff;
+  background: var(--accent);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.saas-grid h4 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.12;
+}
+
+.saas-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.42;
+}
+
+.saas-grid ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #45524d;
+  font-size: 0.88rem;
+  line-height: 1.42;
+}
+
 .guided-stepper {
   display: none;
   gap: 8px;
@@ -2125,6 +2187,10 @@ body[data-audience="sponsor"] .today-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .saas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .secondary-metrics {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2217,6 +2283,7 @@ body[data-audience="sponsor"] .today-card {
   .platform-hero-panel,
   .platform-module-grid,
   .platform-roadmap-panel,
+  .saas-grid,
   .today-strip,
   .priority-grid,
   .briefing-grid,
@@ -2347,6 +2414,7 @@ body[data-audience="sponsor"] .today-card {
 
   .mode-overview,
   .simple-summary,
+  .saas-grid,
   .priority-grid,
   .decision-queue,
   .platform-module-grid {
