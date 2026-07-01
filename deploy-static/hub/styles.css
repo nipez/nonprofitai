@@ -782,6 +782,124 @@ body[data-audience="sponsor"] .mode-overview {
   line-height: 1.42;
 }
 
+.grant-assistant-panel {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 20px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.grant-assistant-panel h3,
+.grant-assistant-panel h4 {
+  margin: 0;
+}
+
+.grant-workflow-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.grant-form,
+.grant-output-panel,
+.approved-language-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: #f8faf8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.grant-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.grant-form select,
+.grant-form textarea,
+.grant-output-panel textarea {
+  width: 100%;
+  min-width: 0;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.grant-form select {
+  min-height: 40px;
+  padding: 0 10px;
+}
+
+.grant-form textarea,
+.grant-output-panel textarea {
+  padding: 11px;
+  resize: vertical;
+  line-height: 1.48;
+}
+
+.grant-output-panel textarea {
+  min-height: 420px;
+  font-size: 0.95rem;
+}
+
+.grant-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.approved-language-list {
+  display: grid;
+  gap: 10px;
+}
+
+.approved-language-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.approved-language-card span {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.approved-language-card h5 {
+  margin: 5px 0;
+  font-size: 0.98rem;
+}
+
+.approved-language-card p,
+.empty-state {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.approved-language-actions {
+  display: flex;
+  gap: 6px;
+}
+
 .guided-stepper {
   display: none;
   gap: 8px;
@@ -2283,6 +2401,7 @@ body[data-audience="sponsor"] .today-card {
   .platform-hero-panel,
   .platform-module-grid,
   .platform-roadmap-panel,
+  .grant-workflow-grid,
   .saas-grid,
   .today-strip,
   .priority-grid,
@@ -2401,6 +2520,10 @@ body[data-audience="sponsor"] .today-card {
   .one-minute-story,
   .simple-card,
   .platform-hero-panel,
+  .grant-assistant-panel,
+  .grant-form,
+  .grant-output-panel,
+  .approved-language-panel,
   .panel {
     padding: 16px;
   }
@@ -2536,6 +2659,21 @@ body[data-audience="sponsor"] .today-card {
 
   .decision-card {
     grid-template-columns: 1fr;
+  }
+
+  .approved-language-card {
+    grid-template-columns: 1fr;
+  }
+
+  .approved-language-actions,
+  .grant-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .approved-language-actions button,
+  .grant-actions button {
+    width: 100%;
   }
 
   .decision-accept {

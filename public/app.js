@@ -4,6 +4,21 @@ const seedState = {
   audienceMode: "internal",
   showAllViews: false,
   showConversationMenu: false,
+  grantAssistant: {
+    outputType: "grantAnswer",
+    prompt: "",
+    sourceNotes: "",
+    tone: "clear",
+    draft: "",
+    approvedLanguage: [
+      {
+        id: crypto.randomUUID(),
+        title: "Staff time and mission focus",
+        type: "Program narrative",
+        text: "This work is designed to reduce recurring administrative burden so nonprofit staff can spend more time on relationship-centered and mission-critical work."
+      }
+    ]
+  },
   tasks: [
     {
       id: crypto.randomUUID(),
@@ -1529,6 +1544,7 @@ function render() {
   renderDecisionQueue();
   renderDashboardBrief();
   renderDashboardPriorities();
+  renderGrantAssistant();
   renderBriefing();
   renderAgenda();
   renderDemoPath();
@@ -1622,6 +1638,61 @@ function renderDashboardPriorities() {
   renderPriorityList("#nextActionList", profile.nextActions, "owner");
   renderPriorityList("#blockerList", profile.blockers);
   renderPriorityList("#meetingPrepList", profile.meetingPrep);
+}
+
+function ensureGrantAssistantState() {
+  if (!state.grantAssistant) {
+    state.grantAssistant = structuredClone(seedState.grantAssistant);
+  }
+  if (!Array.isArray(state.grantAssistant.approvedLanguage)) {
+    state.grantAssistant.approvedLanguage = [];
+  }
+}
+
+function renderGrantAssistant() {
+  ensureGrantAssistantState();
+  const assistant = state.grantAssistant;
+  const outputType = document.querySelector("#grantOutputType");
+  if (!outputType) return;
+
+  outputType.value = assistant.outputType || "grantAnswer";
+  document.querySelector("#grantPrompt").value = assistant.prompt || "";
+  document.querySelector("#grantSourceNotes").value = assistant.sourceNotes || "";
+  document.querySelector("#grantTone").value = assistant.tone || "clear";
+  document.querySelector("#grantDraftOutput").value = assistant.draft || "";
+  renderApprovedLanguage();
+}
+
+function renderApprovedLanguage() {
+  const list = document.querySelector("#approvedLanguageList");
+  if (!list) return;
+  ensureGrantAssistantState();
+  list.innerHTML = "";
+
+  if (!state.grantAssistant.approvedLanguage.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "No approved language saved yet.";
+    list.append(empty);
+    return;
+  }
+
+  state.grantAssistant.approvedLanguage.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "approved-language-card";
+    card.innerHTML = `
+      <div>
+        <span>${escapeHtml(item.type)}</span>
+        <h5>${escapeHtml(item.title)}</h5>
+        <p>${escapeHtml(item.text)}</p>
+      </div>
+      <div class="approved-language-actions">
+        <button class="ghost-button use-approved-language" type="button" data-approved-id="${escapeHtml(item.id)}">Use</button>
+        <button class="icon-button remove-approved-language" type="button" data-approved-id="${escapeHtml(item.id)}" aria-label="Remove approved language">×</button>
+      </div>
+    `;
+    list.append(card);
+  });
 }
 
 function renderPathway() {
@@ -2742,6 +2813,261 @@ function captureDashboardItem() {
   render();
 }
 
+function syncGrantAssistantInputs() {
+  ensureGrantAssistantState();
+  state.grantAssistant.outputType = document.querySelector("#grantOutputType").value;
+  state.grantAssistant.prompt = document.querySelector("#grantPrompt").value.trim();
+  state.grantAssistant.sourceNotes = document.querySelector("#grantSourceNotes").value.trim();
+  state.grantAssistant.tone = document.querySelector("#grantTone").value;
+  state.grantAssistant.draft = document.querySelector("#grantDraftOutput").value;
+}
+
+function loadGrantExample() {
+  ensureGrantAssistantState();
+  state.grantAssistant.outputType = "grantAnswer";
+  state.grantAssistant.tone = "clear";
+  state.grantAssistant.prompt = "Describe the community need, the proposed work, who will benefit, and how success will be measured.";
+  state.grantAssistant.sourceNotes = [
+    "Program: nonprofit operations support pilot",
+    "Need: small nonprofit teams lose time recreating grant language, reports, board updates, and follow-up notes from scattered documents.",
+    "Beneficiaries: executive directors, operations staff, development staff, board members, and funders who need clearer information.",
+    "Approach: start with one safe workflow, use approved source material, generate a draft, require human review, then save approved language for reuse.",
+    "Outcomes: fewer hours spent drafting from scratch, more consistent reporting language, clearer board documentation, and better reuse of institutional knowledge.",
+    "Trust guardrails: no sensitive donor, client, staff, or community data without explicit approval; all external language is reviewed by a human."
+  ].join("\n");
+  state.grantAssistant.draft = "";
+  saveState();
+  renderGrantAssistant();
+}
+
+function createGrantDraft(event) {
+  event?.preventDefault();
+  syncGrantAssistantInputs();
+
+  const assistant = state.grantAssistant;
+  const prompt = assistant.prompt || "Draft a clear nonprofit grant or report response from the notes.";
+  const notes = parseSourceNotes(assistant.sourceNotes);
+  const reusableLanguage = assistant.approvedLanguage
+    .slice(0, 3)
+    .map((item) => item.text)
+    .join(" ");
+
+  const draft = buildGrantDraft({
+    outputType: assistant.outputType,
+    tone: assistant.tone,
+    prompt,
+    notes,
+    reusableLanguage
+  });
+
+  assistant.draft = draft;
+  saveState();
+  document.querySelector("#grantDraftOutput").value = draft;
+}
+
+function parseSourceNotes(text) {
+  const lines = text
+    .split(/\n+/)
+    .map((line) => line.replace(/^[-•*]\s*/, "").trim())
+    .filter(Boolean);
+
+  const sections = {};
+  const loose = [];
+
+  lines.forEach((line) => {
+    const match = line.match(/^([^:]{2,40}):\s*(.+)$/);
+    if (match) {
+      sections[match[1].trim().toLowerCase()] = match[2].trim();
+    } else {
+      loose.push(line);
+    }
+  });
+
+  return { sections, loose, raw: text.trim() };
+}
+
+function pickNote(notes, keys, fallback) {
+  for (const key of keys) {
+    const found = Object.entries(notes.sections).find(([label]) => label.includes(key));
+    if (found?.[1]) return found[1];
+  }
+  if (notes.loose.length) return notes.loose[0];
+  return fallback;
+}
+
+function summarizeLooseNotes(notes) {
+  if (!notes.loose.length) return "";
+  return notes.loose.slice(0, 4).join(" ");
+}
+
+function toneOpening(tone) {
+  if (tone === "warm") return "At its core, this work is about giving nonprofit teams more room to focus on people, relationships, and mission.";
+  if (tone === "concise") return "This proposal focuses on reducing recurring administrative burden through a simple, human-reviewed workflow.";
+  return "This work addresses a practical capacity challenge: nonprofit teams often lose valuable time recreating documents, updates, and narratives from scattered source material.";
+}
+
+function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) {
+  const need = pickNote(notes, ["need", "problem", "challenge"], "Nonprofit staff are spending too much time recreating recurring documents and updates from scattered notes and prior materials.");
+  const approach = pickNote(notes, ["approach", "work", "solution", "activities"], "The work starts with one clear output, uses approved source material, produces a draft for staff review, and saves approved language for future reuse.");
+  const beneficiaries = pickNote(notes, ["beneficiaries", "who", "participants", "audience"], "Executive directors, operations staff, development staff, board members, and funders benefit from clearer and faster documentation.");
+  const outcomes = pickNote(notes, ["outcome", "success", "measure", "impact"], "Success will be measured by time saved, clearer documentation, more consistent funder communication, and staff confidence in the reviewed output.");
+  const guardrails = pickNote(notes, ["trust", "guardrail", "privacy", "data"], "Sensitive information should stay protected, and every external-facing draft should be reviewed and approved by a human.");
+  const loose = summarizeLooseNotes(notes);
+  const reusable = reusableLanguage ? `\n\nReusable approved language to incorporate:\n${reusableLanguage}` : "";
+
+  if (outputType === "funderReport") {
+    return [
+      "Funder Report Draft",
+      "",
+      `Prompt: ${prompt}`,
+      "",
+      toneOpening(tone),
+      "",
+      "Progress to date:",
+      approach,
+      "",
+      "Who benefits:",
+      beneficiaries,
+      "",
+      "Early signs of value:",
+      outcomes,
+      "",
+      "What we are learning:",
+      need,
+      "",
+      "Trust and review:",
+      guardrails,
+      loose ? `\nAdditional source notes:\n${loose}` : "",
+      reusable,
+      "",
+      "Review note: Confirm facts, names, metrics, and any sensitive details before sharing externally."
+    ].filter(Boolean).join("\n");
+  }
+
+  if (outputType === "programUpdate") {
+    return [
+      "Program Update Draft",
+      "",
+      `Prompt: ${prompt}`,
+      "",
+      toneOpening(tone),
+      "",
+      "What is happening:",
+      approach,
+      "",
+      "Why it matters:",
+      need,
+      "",
+      "Who it supports:",
+      beneficiaries,
+      "",
+      "What success looks like:",
+      outcomes,
+      "",
+      "Boundaries:",
+      guardrails,
+      loose ? `\nUseful context:\n${loose}` : "",
+      reusable,
+      "",
+      "Review note: This is a working draft. Staff should edit for voice, accuracy, and approved language."
+    ].filter(Boolean).join("\n");
+  }
+
+  return [
+    "Grant Answer Draft",
+    "",
+    `Funder question: ${prompt}`,
+    "",
+    toneOpening(tone),
+    "",
+    "Need:",
+    need,
+    "",
+    "Proposed approach:",
+    approach,
+    "",
+    "Who will benefit:",
+    beneficiaries,
+    "",
+    "Expected outcomes and measurement:",
+    outcomes,
+    "",
+    "Responsible use and trust:",
+    guardrails,
+    loose ? `\nAdditional source notes:\n${loose}` : "",
+    reusable,
+    "",
+    "Review note: Before submission, replace any generic language with verified organization-specific details and approved metrics."
+  ].filter(Boolean).join("\n");
+}
+
+function clearGrantAssistant() {
+  ensureGrantAssistantState();
+  state.grantAssistant = {
+    ...state.grantAssistant,
+    outputType: "grantAnswer",
+    prompt: "",
+    sourceNotes: "",
+    tone: "clear",
+    draft: ""
+  };
+  saveState();
+  renderGrantAssistant();
+}
+
+function copyGrantDraft() {
+  syncGrantAssistantInputs();
+  navigator.clipboard.writeText(state.grantAssistant.draft || "");
+}
+
+function downloadGrantDraft() {
+  syncGrantAssistantInputs();
+  const draft = state.grantAssistant.draft || "No draft created yet.";
+  const blob = new Blob([draft], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "grant-report-assistant-draft.txt";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function saveApprovedLanguageFromDraft() {
+  syncGrantAssistantInputs();
+  const text = state.grantAssistant.draft.trim();
+  if (!text) return;
+
+  const title = prompt("Name this reusable language", "Approved grant/report language");
+  if (!title) return;
+
+  state.grantAssistant.approvedLanguage.unshift({
+    id: crypto.randomUUID(),
+    title,
+    type: document.querySelector("#grantOutputType").selectedOptions[0]?.textContent || "Grant/report",
+    text: text.length > 520 ? `${text.slice(0, 517)}...` : text
+  });
+  saveState();
+  renderApprovedLanguage();
+}
+
+function useApprovedLanguage(id) {
+  ensureGrantAssistantState();
+  const item = state.grantAssistant.approvedLanguage.find((entry) => entry.id === id);
+  if (!item) return;
+  const notesInput = document.querySelector("#grantSourceNotes");
+  const prefix = notesInput.value.trim() ? `${notesInput.value.trim()}\n\n` : "";
+  notesInput.value = `${prefix}Approved language: ${item.text}`;
+  syncGrantAssistantInputs();
+  saveState();
+}
+
+function removeApprovedLanguage(id) {
+  ensureGrantAssistantState();
+  state.grantAssistant.approvedLanguage = state.grantAssistant.approvedLanguage.filter((item) => item.id !== id);
+  saveState();
+  renderApprovedLanguage();
+}
+
 function splitCaptureText(text) {
   const [title, ...rest] = text.split(":");
   if (!rest.length) {
@@ -3073,6 +3399,33 @@ document.querySelector("#decisionQueueList").addEventListener("click", (event) =
   acceptDecision(button.dataset.decisionTitle);
 });
 document.querySelector("#generateDraftButton").addEventListener("click", generateDraft);
+document.querySelector("#grantAssistantForm").addEventListener("submit", createGrantDraft);
+document.querySelector("#loadGrantExampleButton").addEventListener("click", loadGrantExample);
+document.querySelector("#clearGrantAssistantButton").addEventListener("click", clearGrantAssistant);
+document.querySelector("#copyGrantDraftButton").addEventListener("click", copyGrantDraft);
+document.querySelector("#downloadGrantDraftButton").addEventListener("click", downloadGrantDraft);
+document.querySelector("#saveApprovedLanguageButton").addEventListener("click", saveApprovedLanguageFromDraft);
+document.querySelector("#grantDraftOutput").addEventListener("input", () => {
+  syncGrantAssistantInputs();
+  saveState();
+});
+["#grantOutputType", "#grantPrompt", "#grantSourceNotes", "#grantTone"].forEach((selector) => {
+  document.querySelector(selector).addEventListener("input", () => {
+    syncGrantAssistantInputs();
+    saveState();
+  });
+});
+document.querySelector("#approvedLanguageList").addEventListener("click", (event) => {
+  const useButton = event.target.closest(".use-approved-language");
+  if (useButton) {
+    useApprovedLanguage(useButton.dataset.approvedId);
+    return;
+  }
+  const removeButton = event.target.closest(".remove-approved-language");
+  if (removeButton) {
+    removeApprovedLanguage(removeButton.dataset.approvedId);
+  }
+});
 document.querySelector("#presentModeButton").addEventListener("click", togglePresentMode);
 document.querySelector("#handoutModeButton").addEventListener("click", toggleHandoutMode);
 document.querySelector("#handoutExitButton").addEventListener("click", toggleHandoutMode);
