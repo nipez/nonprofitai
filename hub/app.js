@@ -10,14 +10,7 @@ const seedState = {
     sourceNotes: "",
     tone: "clear",
     draft: "",
-    approvedLanguage: [
-      {
-        id: crypto.randomUUID(),
-        title: "Staff time and mission focus",
-        type: "Program narrative",
-        text: "This work is designed to reduce recurring administrative burden so nonprofit staff can spend more time on relationship-centered and mission-critical work."
-      }
-    ]
+    approvedLanguage: []
   },
   tasks: [
     {
@@ -1647,6 +1640,9 @@ function ensureGrantAssistantState() {
   if (!Array.isArray(state.grantAssistant.approvedLanguage)) {
     state.grantAssistant.approvedLanguage = [];
   }
+  state.grantAssistant.approvedLanguage = state.grantAssistant.approvedLanguage.filter(
+    (item) => !item.text?.includes("recurring administrative burden so nonprofit staff can spend more time")
+  );
 }
 
 function renderGrantAssistant() {
@@ -2826,14 +2822,16 @@ function loadGrantExample() {
   ensureGrantAssistantState();
   state.grantAssistant.outputType = "grantAnswer";
   state.grantAssistant.tone = "clear";
-  state.grantAssistant.prompt = "Describe the community need, the proposed work, who will benefit, and how success will be measured.";
+  state.grantAssistant.prompt = "Describe the program for which you are requesting funding, the population served, the need being addressed, and the outcomes you expect to achieve during the grant period.";
   state.grantAssistant.sourceNotes = [
-    "Program: nonprofit operations support pilot",
-    "Need: small nonprofit teams lose time recreating grant language, reports, board updates, and follow-up notes from scattered documents.",
-    "Beneficiaries: executive directors, operations staff, development staff, board members, and funders who need clearer information.",
-    "Approach: start with one safe workflow, use approved source material, generate a draft, require human review, then save approved language for reuse.",
-    "Outcomes: fewer hours spent drafting from scratch, more consistent reporting language, clearer board documentation, and better reuse of institutional knowledge.",
-    "Trust guardrails: no sensitive donor, client, staff, or community data without explicit approval; all external language is reviewed by a human."
+    "Organization: Southside Youth Arts Collective",
+    "Program: After-school arts and mentoring program for middle and high school students",
+    "Population served: Youth ages 12-18 on the South Side of Chicago, especially students who have limited access to arts enrichment, safe after-school spaces, and consistent adult mentorship.",
+    "Need: Many students in the neighborhoods we serve do not have affordable access to arts programming after school. Families have told us they want safe, structured programs where young people can build confidence, express themselves, and connect with supportive adults. Schools are stretched thin and cannot always offer consistent creative enrichment.",
+    "Program activities: Students meet three afternoons per week during the school year. They participate in visual arts, storytelling, digital media, music, and spoken word workshops. Each student is paired with a mentor. The program also includes monthly family showcases and two community exhibitions each year.",
+    "Expected outcomes: Serve 75 students during the grant period. At least 80% of participating students will complete a final creative project. At least 70% will report increased confidence in sharing their ideas. Families will report stronger connection to school and community resources.",
+    "Measurement: Attendance records, student surveys, mentor notes, completed creative projects, family feedback forms, and participation in showcases.",
+    "Funding request: Support teaching artist stipends, program supplies, mentor coordination, transportation assistance, and the final community showcase."
   ].join("\n");
   state.grantAssistant.draft = "";
   saveState();
@@ -2847,17 +2845,12 @@ function createGrantDraft(event) {
   const assistant = state.grantAssistant;
   const prompt = assistant.prompt || "Draft a clear nonprofit grant or report response from the notes.";
   const notes = parseSourceNotes(assistant.sourceNotes);
-  const reusableLanguage = assistant.approvedLanguage
-    .slice(0, 3)
-    .map((item) => item.text)
-    .join(" ");
 
   const draft = buildGrantDraft({
     outputType: assistant.outputType,
     tone: assistant.tone,
     prompt,
-    notes,
-    reusableLanguage
+    notes
   });
 
   assistant.draft = draft;
@@ -2900,20 +2893,25 @@ function summarizeLooseNotes(notes) {
   return notes.loose.slice(0, 4).join(" ");
 }
 
-function toneOpening(tone) {
-  if (tone === "warm") return "At its core, this work is about giving nonprofit teams more room to focus on people, relationships, and mission.";
-  if (tone === "concise") return "This proposal focuses on reducing recurring administrative burden through a simple, human-reviewed workflow.";
-  return "This work addresses a practical capacity challenge: nonprofit teams often lose valuable time recreating documents, updates, and narratives from scattered source material.";
+function toneOpening(tone, notes) {
+  const organization = pickNote(notes, ["organization"], "The organization");
+  const program = pickNote(notes, ["program"], "the proposed program");
+  if (tone === "warm") return `${organization} is seeking support for ${program}, a community-centered effort designed to meet a real need with care, consistency, and trusted relationships.`;
+  if (tone === "concise") return `${organization} requests funding for ${program} to address a clear community need and deliver measurable outcomes during the grant period.`;
+  return `${organization} is requesting support for ${program}. The program responds to a documented community need and is designed to provide practical, measurable benefit to the people served.`;
 }
 
-function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) {
-  const need = pickNote(notes, ["need", "problem", "challenge"], "Nonprofit staff are spending too much time recreating recurring documents and updates from scattered notes and prior materials.");
-  const approach = pickNote(notes, ["approach", "work", "solution", "activities"], "The work starts with one clear output, uses approved source material, produces a draft for staff review, and saves approved language for future reuse.");
-  const beneficiaries = pickNote(notes, ["beneficiaries", "who", "participants", "audience"], "Executive directors, operations staff, development staff, board members, and funders benefit from clearer and faster documentation.");
-  const outcomes = pickNote(notes, ["outcome", "success", "measure", "impact"], "Success will be measured by time saved, clearer documentation, more consistent funder communication, and staff confidence in the reviewed output.");
-  const guardrails = pickNote(notes, ["trust", "guardrail", "privacy", "data"], "Sensitive information should stay protected, and every external-facing draft should be reviewed and approved by a human.");
+function buildGrantDraft({ outputType, tone, prompt, notes }) {
+  const organization = pickNote(notes, ["organization"], "The organization");
+  const program = pickNote(notes, ["program"], "the proposed program");
+  const need = pickNote(notes, ["need", "problem", "challenge"], "The community need should be described here using specific local context, participant experience, and evidence from the organization.");
+  const approach = pickNote(notes, ["activities", "approach", "work", "solution"], "The program activities should be described here, including what participants will do, how often services occur, and who will provide support.");
+  const beneficiaries = pickNote(notes, ["population", "beneficiaries", "participants", "who served", "audience"], "The population served should be named here, including age range, geography, eligibility, or other relevant context.");
+  const outcomes = pickNote(notes, ["expected outcomes", "outcome", "success", "impact"], "The expected outcomes should be stated with measurable targets where possible.");
+  const measurement = pickNote(notes, ["measurement", "measure", "evaluation"], "The organization should explain how it will track participation, quality, outcomes, and participant feedback.");
+  const funding = pickNote(notes, ["funding", "budget", "request"], "");
+  const guardrails = pickNote(notes, ["trust", "guardrail", "privacy", "data"], "");
   const loose = summarizeLooseNotes(notes);
-  const reusable = reusableLanguage ? `\n\nReusable approved language to incorporate:\n${reusableLanguage}` : "";
 
   if (outputType === "funderReport") {
     return [
@@ -2921,7 +2919,7 @@ function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) 
       "",
       `Prompt: ${prompt}`,
       "",
-      toneOpening(tone),
+      `${organization} is reporting on progress for ${program}.`,
       "",
       "Progress to date:",
       approach,
@@ -2934,11 +2932,9 @@ function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) 
       "",
       "What we are learning:",
       need,
-      "",
-      "Trust and review:",
+      guardrails ? "\nTrust and review:" : "",
       guardrails,
       loose ? `\nAdditional source notes:\n${loose}` : "",
-      reusable,
       "",
       "Review note: Confirm facts, names, metrics, and any sensitive details before sharing externally."
     ].filter(Boolean).join("\n");
@@ -2950,7 +2946,7 @@ function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) 
       "",
       `Prompt: ${prompt}`,
       "",
-      toneOpening(tone),
+      toneOpening(tone, notes),
       "",
       "What is happening:",
       approach,
@@ -2964,10 +2960,11 @@ function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) 
       "What success looks like:",
       outcomes,
       "",
-      "Boundaries:",
+      "How progress will be measured:",
+      measurement,
+      guardrails ? "\nBoundaries:" : "",
       guardrails,
       loose ? `\nUseful context:\n${loose}` : "",
-      reusable,
       "",
       "Review note: This is a working draft. Staff should edit for voice, accuracy, and approved language."
     ].filter(Boolean).join("\n");
@@ -2978,24 +2975,20 @@ function buildGrantDraft({ outputType, tone, prompt, notes, reusableLanguage }) 
     "",
     `Funder question: ${prompt}`,
     "",
-    toneOpening(tone),
+    toneOpening(tone, notes),
     "",
-    "Need:",
-    need,
+    `${program} will serve ${beneficiaries} ${need}`,
     "",
-    "Proposed approach:",
-    approach,
+    `${organization} will carry out the program through the following activities: ${approach}`,
     "",
-    "Who will benefit:",
-    beneficiaries,
+    funding ? `Grant funds will support ${funding}` : "",
     "",
-    "Expected outcomes and measurement:",
-    outcomes,
+    `During the grant period, ${organization} expects to achieve the following outcomes: ${outcomes}`,
     "",
-    "Responsible use and trust:",
+    `Progress will be measured through ${measurement}`,
+    guardrails ? "\nResponsible use and trust:" : "",
     guardrails,
     loose ? `\nAdditional source notes:\n${loose}` : "",
-    reusable,
     "",
     "Review note: Before submission, replace any generic language with verified organization-specific details and approved metrics."
   ].filter(Boolean).join("\n");
